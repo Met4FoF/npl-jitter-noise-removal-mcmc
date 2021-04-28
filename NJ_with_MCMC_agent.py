@@ -1,5 +1,7 @@
 from agentMET4FOF.agents import AgentMET4FOF, AgentNetwork, MonitorAgent
-from agentMET4FOF.streams import SineGeneratorJitter
+# from agentMET4FOF.streams import SineGeneratorJitter
+from Sinegen import SineGeneratorJitter
+
 import numpy as np
 from NJRemove.NJRemoval_class_withmcmc import MCMCMH_NJ
 
@@ -43,12 +45,12 @@ class SineGeneratorAgent(AgentMET4FOF):
     def agent_loop(self):
         if self.current_state == "Running":
             sine_data = self.stream.next_sample()  # dictionary
-            self.send_output(sine_data['x'])
+            self.send_output(sine_data['quantities'])
 
 
 def main():
     # start agent network server
-    agentNetwork = AgentNetwork()
+    agentNetwork = AgentNetwork(backend="mesa")
     # init agents
 
     gen_agent = agentNetwork.add_agent(agentType=SineGeneratorAgent)
@@ -61,9 +63,8 @@ def main():
 
     # connect agents : We can connect multiple agents to any particular agent
 
-
-
     agentNetwork.bind_agents(gen_agent, njremove_agent)
+
     # connect
     agentNetwork.bind_agents(gen_agent, monitor_agent)
 

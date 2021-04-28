@@ -387,7 +387,7 @@ def mcmcmh(M,N,M0,Q,A0, tar, jump):
     Id = lq > -np.Inf
 
     if sum(Id) < N:
-        Print("Initial values must be feasible for all chains")
+        print("Initial values must be feasible for all chains")
         return None
 
 
