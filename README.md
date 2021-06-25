@@ -10,7 +10,6 @@ com/Met4FoF/npl-jitter-noise-removal-mcmc/graphs/contributors).
 
 To get started with this follow these steps:
 
-1. Install Python 3.8
 1. Get a copy of the code via
    
    `git clone https://github.com/Met4FoF/npl-jitter-noise-removal-mcmc.git`
@@ -18,6 +17,11 @@ To get started with this follow these steps:
    or update your copy via
   
    `git pull`
+   
+1. Either use the provided [environment.yml](environment.yml) to create an 
+   appropriate virtual environment with the correct Python version and 
+   _agentMET4FOF_ and proceed with step 5. or take the manual installation steps
+1. Install Python 3.8
 1. Install _agentMET4FOF_'s most current version into your Python environment via
 
    `pip install agentMET4FOF==0.8.1`
