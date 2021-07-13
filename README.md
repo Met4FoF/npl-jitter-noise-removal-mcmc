@@ -53,7 +53,10 @@ NJ_with_MCMC_agent.py – Main script that calls the above classes within the ag
 ## Acknowledgements
 
 This project has received funding from the EMPIR programme co-financed by the Participating States and from the European Union’s Horizon 2020 research and innovation programme.
-References
+
+
+## References
+
 [1] K. Jagan, L. Wright and P. Harris, "A Bayesian approach to account for timing effects in industrial sensor networks," 2020 IEEE International Workshop on Metrology for Industry 4.0 & IoT, Roma, Italy, 2020, pp. 89-94, doi: 10.1109/MetroInd4.0IoT48571.2020.9138266.
 [2] Wichmann BA, Hill ID. Algorithm AS 183: An efficient and portable pseudo-random number generator. Journal of the Royal Statistical Society. Series C (Applied Statistics). 1982 Jan 1;31(2):188-90.
 

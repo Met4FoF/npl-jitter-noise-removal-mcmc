@@ -23,6 +23,7 @@ To the extent permitted by applicable law, under no circumstance shall NPL be li
 
 The above limitations will not apply in case of personal injury where and to the extent that applicable law requires such liability.
 
+## 7. Other
 This agreement shall remain in effect until terminated by NPL or the User.
 
 NPL is entitled to assign or novate this Agreement to the Department for Business, Energy and Industrial Strategy (BEIS) or any party nominated by BEIS.
