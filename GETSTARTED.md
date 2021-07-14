@@ -3,8 +3,7 @@
 This software is "work in progress" and under active development during the next
 couple of weeks.
 
-If you have questions get in touch with [the developers](https://github.
-com/Met4FoF/npl-jitter-noise-removal-mcmc/graphs/contributors).
+If you have questions get in touch with [the developers](https://github.com/Met4FoF/npl-jitter-noise-removal-mcmc/graphs/contributors).
 
 ## Getting started
 
