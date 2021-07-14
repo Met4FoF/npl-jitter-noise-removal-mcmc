@@ -82,7 +82,11 @@ agents that generate data and perform Bayesian noise and jitter removal.
 
 ## Acknowledgements
 
-This project has received funding from the EMPIR programme co-financed by the Participating States and from the European Union’s Horizon 2020 research and innovation programme.
+This work was part of the Joint Research Project [Metrology for the Factory of the 
+Future (Met4FoF), project number 17IND12](https://www.ptb.de/empir2018/met4fof/home/)
+which has received funding from the [EMPIR](http://msu.euramet.org) programme 
+co-financed by the Participating States and from the European Union’s Horizon 2020 
+research and innovation programme.
 
 
 ## References
