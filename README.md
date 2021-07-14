@@ -88,6 +88,20 @@ which has received funding from the [EMPIR](http://msu.euramet.org) programme
 co-financed by the Participating States and from the European Union’s Horizon 2020 
 research and innovation programme.
 
+## Disclaimer
+
+This software is developed as a joint effort of several project partners namely:
+
+- [National Physics Laboratory (NPL)](https://www.npl.co.uk/)
+- [Institute for Manufacturing of the University of Cambridge (IfM)](https://www.ifm.eng.cam.ac.uk/)
+- [Physikalisch-Technische Bundesanstalt (PTB)](https://www.ptb.de/)
+
+under the lead of NPL. The software is made available "as is" free of cost. The 
+authors and their institutions assume no responsibility whatsoever for its use by 
+other parties, and makes no guarantees, expressed or implied, about its quality, 
+reliability, safety, suitability or any other characteristic. In no event will the 
+authors be liable for any direct, indirect or consequential damage arising in 
+connection with the use of this software.
 
 ## References
 
