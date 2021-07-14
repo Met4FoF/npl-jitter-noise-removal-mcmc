@@ -14,9 +14,11 @@ To run the algorithm with the least effort, follow the steps in our
 ## Introduction to the algorithm
 
 Many measurements important in manufacturing relate to dynamical systems evolving over time, such as temperature and humidity, motion, position, etc. Sensors may have access to an accurate clock but for multiple, spatially distributed sensors, it is essential that the sensors are working to a common timescale, for example, through traceability to UTC, so that the data they record can be analysed correctly. Accurate time-stamping can be an important diagnostic aid to establishing which cause-effect relationships are feasible, and which are infeasible, or providing information about the path of a signal (such as vibrations) traversing a structure.
+
 In addition to the issue of ensuring that the data recorded by different sensors is synchronised, such data can be subject to timing errors - jitter, as well as noise in the measured signal. Pre-processing the sensor signals can reduce the effects of noise and jitter and correct for such timing errors. It is important to understand the uncertainty of the resulting pre-processed signals, and to be able to propagate those uncertainties through any subsequent processing or aggregation of the sensor signals.
+
 This software implements an algorithm to reduce timing and noise effects in the data recorded by sensors in industrial sensor networks. A Bayesian approach is used to estimate parameters describing the levels of jitter and noise in the measured signal and parameters of a model for the underlying ‘true’ signal, which are used to provide estimates of the values of the true signal. Since the Bayesian posterior distribution does not take a standard form, inferences about the parameters are made based on a sample derived from the posterior distribution using a Metropolis-Hastings (MH) Markov Chain Monte Carlo (MCMC) method. An important benefit of using a Bayesian approach is that the uncertainties associated with the estimates of the parameters, and hence the estimated signal, are also obtained without having to perform further computation.  
-For further details about the algorithm, please refer to the paper [1].
+For further details about the algorithm, please refer to the paper [[1]](#References).
 
 ## Structure of the software
 
