@@ -24,7 +24,7 @@ For further details about the algorithm, please refer to the paper [[1]](#Refere
 
 This is a simple implementation of the agent framework to showcase the noise and jitter removal capabilities of our algorithm on ‘real-time’ data generation. A simplified data workflow is shown in Figure 1, showcasing the agent framework for noise and jitter removal algorithm purposes. Data can be passed either directly into the ‘NJ alg’ module or passed into the MCMC module beforehand. The resulting output for both processes is plots of the ‘clean’ signal after noise and jitter removal.
 
-![Workflow diagram](https://github.com/Met4FoF/npl-jitter-noise-removal-mcmc/blob/main/workflow_diag.PNG)
+![Workflow diagram](docs/workflow_diag.PNG)
 
 ## Description of the functions
 
