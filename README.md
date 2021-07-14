@@ -6,7 +6,7 @@ The software, developed in Python 3.8, is provided in the form of py-files. It i
 The MCMCNJ software is provided with a software licence agreement “LICENSE” and the use of the software is subject to the terms laid out in that agreement. By running the Python code, the user accepts the terms of the agreement.
 Enquiries about this software should be directed to Kavya Jagan (kavya.jagan@npl.co.uk), Liam Wright (liam.wright@npl.co.uk) or Peter Harris (peter.harris@npl.co.uk).
 
-## Getting started
+## Get started
 
 To run the algorithm with the least effort, follow the steps in our
 [GETSTARTED.md](GETSTARTED.md).
