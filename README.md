@@ -30,7 +30,7 @@ This is a simple implementation of the agent framework to showcase the noise and
 
 The toolbox consists of 3 python scripts described below. Inputs and outputs of functions are described in the header of each function in the code.
 
-### NJRemoval_class_withmcmc.py
+### [NJRemoval_class_withmcmc.py](NJRemove/NJRemoval_class_withmcmc.py)
 
 Module containing a number of functions that perform noise and jitter removal:
 
@@ -52,7 +52,7 @@ Module containing a number of functions that perform noise and jitter removal:
   random number generator [2]. This was used to test the code and can be replaced by 
   Python’s inbuilt random number generator if needed.
 
-### mcmc_decayexp.py
+### [mcmc_decayexp.py](MCMCMH/mcmcm_decayexp.py)
 
 Module that contains functions that generate mcmc samples from the posterior 
 distribution of the noise and jitter variances:
@@ -70,11 +70,11 @@ distribution of the noise and jitter variances:
 - mcmcmh – Function that does the Metropolis-Hastings MCMC sampling and returns 
   estimates of noise and jitter variance which is fed into the NJ removal routine
 
-### Sinegen.py
+### [Sinegen.py](Sinegen.py)
 
 NPL addition to stream.py to add noise and jitter to sine generated data.
 
-### NJ_with_MCMC_agent.py
+### [NJ_with_MCMC_agent.py](NJ_with_MCMC_agent.py)
 
 Main script that calls the above classes within the agent-based framework. It sets up
 agents that generate data and perform Bayesian noise and jitter removal.
