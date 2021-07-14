@@ -2,8 +2,8 @@
 
 This document describes the files that constitute Release 1 of the National Physical Laboratory's (NPL) MCMCNJ Software.
 The software, developed in Python 3.8, is provided in the form of py-files. It is intended to be used within the multiagent framework for the FoF project:
-<https://github.com/bangxiangyong/agentMET4FOF/tree/28635a7eb7c1d98814d8409e1f1b96bdc36bb3d1>
-The MCMCNJ software is provided with a software licence agreement “FoF_NJ_DS_L_20_017.md” and the use of the software is subject to the terms laid out in that agreement. By running the Python code, the user accepts the terms of the agreement.
+<https://github.com/Met4FoF/agentMET4FOF>
+The MCMCNJ software is provided with a software licence agreement “LICENSE” and the use of the software is subject to the terms laid out in that agreement. By running the Python code, the user accepts the terms of the agreement.
 Enquiries about this software should be directed to Kavya Jagan (kavya.jagan@npl.co.uk), Liam Wright (liam.wright@npl.co.uk) or Peter Harris (peter.harris@npl.co.uk).
 
 
