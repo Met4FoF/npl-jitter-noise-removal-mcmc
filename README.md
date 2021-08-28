@@ -113,5 +113,5 @@ connection with the use of this software.
 
 MCMCNJ is distributed under the [LGPLv3 license](LICENSE).
 
-*Version of this document*
-Version 1 for release 2 of the code – Created 09-07-2021 KJ, LRW.
+## Version of this document
+Version 2 for release 2 of the code – Created 28-08-2021 KJ, LRW, BL.
