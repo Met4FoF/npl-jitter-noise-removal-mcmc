@@ -1,25 +1,21 @@
-################################################################################################################
+########################################################################################
 # MCMC estimation of noise and jitter variances
 # KJ 14-08-2020
-# Based on code on T drive FoF folder that has SQM stuff sorted and has been reviewed by Lizzie
-#################################################################################################################
+# Based on code on T drive FoF folder that has SQM stuff sorted and has been reviewed
+#     by Lizzie
+########################################################################################
 
 
+import math
 
 import numpy as np
-import random as rnd
-import math
 import numpy.matlib
-import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-from scipy.stats import multivariate_normal
 
 
-"""### mcmcci: MCMC convergence indices for multiple chains."""
+def mcmcci(A, M0):
+    """MCMC convergence indices for multiple chains
 
-def mcmcci(A,M0):
-    '''
-    mcmcci: MCMC convergence indices for multiple chains.
     ----------------------------------------------------------------------------
     KJ, LRW, PMH
 
@@ -42,7 +38,7 @@ def mcmcci(A,M0):
     set to (M-M0)*N, their limit values.
 
     Note: If N = 1 or M0 > M-2, Rhat = 0; Neff = 0.
-    '''
+    """
     A = np.array(A)
 
     M, N = A.shape
@@ -58,37 +54,36 @@ def mcmcci(A,M0):
         Mt = M - M0
 
         # Chain mean and mean of means
-        asub = A[M0:,:]
-        ad = np.mean(asub,axis = 0)
+        asub = A[M0:, :]
+        ad = np.mean(asub, axis=0)
         add = asub.mean()
 
         # Within group standard deviation
-        ss = np.std(asub,axis = 0)
+        ss = np.std(asub, axis=0)
 
         # Between groups variance.
         dd = np.square(ad - add)
-        B = (Mt*np.sum(dd))/(N-1)
+        B = (Mt * np.sum(dd)) / (N - 1)
 
         # Within groups variance.
-        W = np.sum(np.square(ss))/N
+        W = np.sum(np.square(ss)) / N
 
         # V plus
-        Vp = (Mt-1)*W/Mt + B/Mt
+        Vp = (Mt - 1) * W / Mt + B / Mt
 
         # Convergence statistic, effective number of independent samples
-        Rhat = np.sqrt(Vp/W)
-        Neff = Mt*N*Vp/B
+        Rhat = np.sqrt(Vp / W)
+        Neff = Mt * N * Vp / B
 
-        Rhat = np.maximum(Rhat,1)
-        Neff = np.minimum(Neff,Mt*N)
+        Rhat = np.maximum(Rhat, 1)
+        Neff = np.minimum(Neff, Mt * N)
 
     return Rhat, Neff
 
-"""### mcsums: Summary information from MC samples."""
 
-def mcsums(A,M0,Q):
-    '''
-    mcsums: Summary information from MC samples.
+def mcsums(A, M0, Q):
+    """Summary information from MC samples
+
     -------------------------------------------------------------------------
     KJ, LRW, PMH
     Version 2020-04-22
@@ -108,13 +103,13 @@ def mcsums(A,M0,Q):
 
     aQ(nQ,n): Percentiles corresponding to Q.
 
-    '''
+    """
     # Size of samples after burn-in
     A = np.array(A)
 
     M, N = A.shape
 
-    m = (M - M0)*N
+    m = (M - M0) * N
 
     # Initialise percentile vector
     nQ = Q.size
@@ -129,16 +124,14 @@ def mcsums(A,M0,Q):
     s = np.std(aaj)
 
     # Percentiles of samples
-    aQ = np.percentile(aaj,Q)
+    aQ = np.percentile(aaj, Q)
 
     return abar, s, aQ
 
-"""### jumprwg: Jumping distribution for the Metropolis Hastings Gaussian random walk algorithm"""
 
 def jumprwg(A, L):
-    '''
-    jumprwg: Jumping distribution for the Metropolis Hastings Gaussian random
-    walk algorithm
+    """Jumping distribution for the Metropolis Hastings Gaussian random walk algorithm
+
     -------------------------------------------------------------------------
     KJ, LRW, PMH
     Version 2020-04-22
@@ -157,27 +150,26 @@ def jumprwg(A, L):
     moving from As(:,j) to A(:,j), up to an additive constant.
     log P0(a|as) - log P0(as|a)
 
-    '''
+    """
     # Number of parameters and parallel chains
     n, N = A.shape
 
     # random draw from a Gaussian distribution
-    e = np.random.normal(0, 1, size=(n,N))
+    e = np.random.normal(0, 1, size=(n, N))
 
     # proposed draw from a Gaussian distribution with mean A and variance LL'
-    As = A + np.matmul(L,e)
+    As = A + np.matmul(L, e)
 
-    # For a Gaussian random walk, since log P0(a|as) = log P0(as|a), dp0 will always be zero
+    # For a Gaussian random walk, since log P0(a|as) = log P0(as|a), dp0 will always
+    # be zero
     dp0 = np.zeros(N)
 
     return As, dp0
 
-"""### Cubic function and its first and second derivative"""
 
-def fgh_cubic(alpha,t):
-    '''
-    -------------------------------------------------------------------------
-    Cubic function and its first and second derivative
+def fgh_cubic(alpha, t):
+    """Cubic function and its first and second derivative
+
     -------------------------------------------------------------------------
     KJ, LRW, PMH
     Version 2020-04-22
@@ -193,7 +185,7 @@ def fgh_cubic(alpha,t):
     f1(m,N):                Derivative of cubic
 
     f2(m,N):                Second derivative of cubic
-    '''
+    """
 
     # length of data and number of paramaters
     m = t.size
@@ -202,22 +194,23 @@ def fgh_cubic(alpha,t):
     C = np.array([np.ones(m), t, t**2, t**3])
 
     # derivate info
-    C1 = np.array([np.ones(m), 2*t, 3*t**2])
-    C2 = np.array([2*np.ones(m), 6*t])
+    C1 = np.array([np.ones(m), 2 * t, 3 * t**2])
+    C2 = np.array([2 * np.ones(m), 6 * t])
 
     # cubic and derivatives
-    f = np.matmul(C.T,alpha)
-    f1 = np.matmul(C1.T,alpha[1:])
-    f2 = np.matmul(C2.T,alpha[2:])
+    f = np.matmul(C.T, alpha)
+    f1 = np.matmul(C1.T, alpha[1:])
+    f2 = np.matmul(C2.T, alpha[2:])
 
     return f, f1, f2
 
+
 """### Log of the gaussian pdf"""
 
-def ln_gauss_pdf_v(x,mu,sigma):
-    '''
-    -------------------------------------------------------------------------
-    Log of the Gaussian pdf
+
+def ln_gauss_pdf_v(x, mu, sigma):
+    """Log of the Gaussian pdf
+
     -------------------------------------------------------------------------
     KJ, LRW, PMH
     Version 2020-03-12
@@ -232,33 +225,30 @@ def ln_gauss_pdf_v(x,mu,sigma):
     Output:
     logf:                   Log of the Gaussian pdf at x with mean mu and
                             std sigma
-    '''
-
+    """
 
     try:
-      # When inputs are high dimensional arrays/matrices
-      xx = np.matlib.repmat(x,mu.shape[1],1)
-      xx = xx.T
-      logk = - np.log(2*math.pi)/2 - np.log(sigma)
-      logp = -((xx - mu)**2)/(2*sigma**2)
-      # Log of the Gaussian PDF
-      logf = logk + logp
+        # When inputs are high dimensional arrays/matrices
+        xx = np.matlib.repmat(x, mu.shape[1], 1)
+        xx = xx.T
+        logk = -np.log(2 * math.pi) / 2 - np.log(sigma)
+        logp = -((xx - mu) ** 2) / (2 * sigma**2)
+        # Log of the Gaussian PDF
+        logf = logk + logp
 
     except IndexError:
-      # When inputs are vectors
-      logk = - np.log(2*math.pi)/2 - np.log(sigma)
-      logp = -((x - mu)**2)/(2*sigma**2)
-      # Log of the Gaussian PDF
-      logf = logk + logp
+        # When inputs are vectors
+        logk = -np.log(2 * math.pi) / 2 - np.log(sigma)
+        logp = -((x - mu) ** 2) / (2 * sigma**2)
+        # Log of the Gaussian PDF
+        logf = logk + logp
 
     return logf
 
-"""### Target dist for noise and jitter posterior dist"""
 
 def tar_at(at, y, x, m0w, s0w, m0t, s0t):
-    '''
-    -------------------------------------------------------------------------
-    Target dist for noise and jitter posterior dist
+    """Target dist for noise and jitter posterior dist
+
     -------------------------------------------------------------------------
     KJ, LRW, PMH
     Version 2020-04-22
@@ -276,7 +266,7 @@ def tar_at(at, y, x, m0w, s0w, m0t, s0t):
 
     Output:
     T:                      Log of the posterior distribution
-    '''
+    """
 
     # Size of parameter vector
     at = np.array(at)
@@ -289,35 +279,34 @@ def tar_at(at, y, x, m0w, s0w, m0t, s0t):
     alpha = at[0:n]
     phi1 = np.exp(at[-2])
     phi2 = np.exp(at[-1])
-    taus = np.ones(phi1.shape)/np.sqrt(phi1)
-    omegas = np.ones(phi2.shape)/np.sqrt(phi2)
+    taus = np.ones(phi1.shape) / np.sqrt(phi1)
+    omegas = np.ones(phi2.shape) / np.sqrt(phi2)
 
     # Gamma priors for phis
-    prior_phi1 = (m0t/2)*np.log(phi1) - phi1*m0t*s0t**2/2
-    prior_phi2 = (m0w/2)*np.log(phi2) - phi2*m0w*s0w**2/2
-
+    prior_phi1 = (m0t / 2) * np.log(phi1) - phi1 * m0t * s0t**2 / 2
+    prior_phi2 = (m0w / 2) * np.log(phi2) - phi2 * m0w * s0w**2 / 2
 
     # function that evaluates the cubic function with user specified cubic parameters
-    fun = lambda aa: fgh_cubic(aa,x)
+    fun = lambda aa: fgh_cubic(aa, x)
 
     # cubic, expectation and variance
-    [st,st1,st2] = fun(alpha)
-    expect = st + 0.5*(taus**2)*st2
-    vari = (taus**2)*(st1**2) + omegas**2
+    [st, st1, st2] = fun(alpha)
+    expect = st + 0.5 * (taus**2) * st2
+    vari = (taus**2) * (st1**2) + omegas**2
 
     # Likelihood
-    lik = sum(ln_gauss_pdf_v(y,expect,np.sqrt(vari)))
+    lik = sum(ln_gauss_pdf_v(y, expect, np.sqrt(vari)))
 
     # Posterior
     T = lik + prior_phi1 + prior_phi2
 
     return T
 
-"""###mcmcmh: Metrolopolis-Hasting MCMC algorithm generating N chains of length M for a parameter vector A of length n."""
 
-def mcmcmh(M,N,M0,Q,A0, tar, jump):
-    '''
-    mcmcmh: Metrolopolis-Hasting MCMC algorithm generating N chains of length
+def mcmcmh(M, N, M0, Q, A0, tar, jump):
+    """Metrolopolis-Hasting MCMC algorithm
+
+    The Metrolopolis-Hasting MCMC algorithm generates N chains of length
     M for a parameter vector A of length n.
 
     For details about the algorithm please refer to:
@@ -361,7 +350,7 @@ def mcmcmh(M,N,M0,Q,A0, tar, jump):
     generated at the ith step of the jth chain was rejected so that
     AA(i,j,:) = AA(i-1,j,:), i > 1. The first set of proposal coincide with
     A0 are all accepted, so IAA(1,j) = 1.
-    '''
+    """
     A0 = np.array(A0)
     Q = np.array(Q)
     # number of parameters for which samples are to be drawn
@@ -370,14 +359,12 @@ def mcmcmh(M,N,M0,Q,A0, tar, jump):
     # number of percentiles to be evaluated
     nQ = Q.size
 
-
     # Initialising output arrays
     AA = np.empty((M, N, n))
     IAA = np.zeros((M, N))
     Rh = np.empty((n))
     Ne = np.empty((n))
     S = np.empty((2 + nQ, n))
-
 
     # starting values of the sample and associated log of target density
     aq = A0
@@ -389,7 +376,6 @@ def mcmcmh(M,N,M0,Q,A0, tar, jump):
     if sum(Id) < N:
         print("Initial values must be feasible for all chains")
         return None
-
 
     # Run the chains in parallel
     for q in range(M):
@@ -417,48 +403,47 @@ def mcmcmh(M,N,M0,Q,A0, tar, jump):
         # Store Metropolis Hastings sample
         AA[q, :, :] = np.transpose(aq)
 
-
     # acceptance probabilities for each chain
-    aP = 100*np.sum(IAA,0)/M
+    aP = 100 * np.sum(IAA, 0) / M
 
     # Convergence and summary statistics for each of the n parameters
     for j in range(n):
         # test convergence
-        RN = mcmcci(np.squeeze(AA[:,:,j]), M0)
+        RN = mcmcci(np.squeeze(AA[:, :, j]), M0)
         Rh[j] = RN[0]
         Ne[j] = RN[1]
 
         # provide summary information
-        asq = np.squeeze(AA[:,:,j])
-        SS = mcsums(asq,M0,Q)
-        S[0,j] = SS[0]
-        S[1,j] = SS[1]
-        S[2:,j] = SS[2]
+        asq = np.squeeze(AA[:, :, j])
+        SS = mcsums(asq, M0, Q)
+        S[0, j] = SS[0]
+        S[1, j] = SS[1]
+        S[2:, j] = SS[2]
 
     return S, aP, Rh, Ne, AA, IAA
 
-def main(datay,datax,m0w,s0w,m0t,s0t,Mc,M0,Nc,Q):
 
-  at0 = np.array((1,1,1,1, np.log(1/s0w**2), np.log(1/s0t**2)))
-  # function that evaluates the log of the target distribution at given parameter values
-  tar = lambda at: tar_at(at, datay, datax, m0w, s0w, m0t, s0t)
-  # function that evaluates the negative log of the target distribution to evaluate MAP estimates
-  mapp = lambda at: -tar(at)
+def main(datay, datax, m0w, s0w, m0t, s0t, Mc, M0, Nc, Q):
 
-  res = minimize(mapp, at0)
-  pars = res.x
-  V = res.hess_inv
-  L = np.linalg.cholesky(V)
+    at0 = np.array((1, 1, 1, 1, np.log(1 / s0w**2), np.log(1 / s0t**2)))
+    # function that evaluates the log of the target distribution at given parameter
+    # values
+    tar = lambda at: tar_at(at, datay, datax, m0w, s0w, m0t, s0t)
+    # function that evaluates the negative log of the target distribution to evaluate
+    # MAP estimates
+    mapp = lambda at: -tar(at)
 
+    res = minimize(mapp, at0)
+    pars = res.x
+    V = res.hess_inv
+    L = np.linalg.cholesky(V)
 
-  # Function that draws sample from a Gaussian random walk jumping distribution
-  jump = lambda A: jumprwg(A, L)
+    # Function that draws sample from a Gaussian random walk jumping distribution
+    jump = lambda A: jumprwg(A, L)
 
+    rr = np.random.normal(0, 1, size=(6, Nc))
 
-  rr = np.random.normal(0,1,size=(6,Nc))
+    A0 = numpy.matlib.repmat(pars.T, Nc, 1).T + np.matmul(L, rr)
 
-  A0 = numpy.matlib.repmat(pars.T,Nc,1).T + np.matmul(L,rr)
-
-
-  sam = mcmcmh(Mc,Nc,M0,Q,A0,tar,jump)
-  return 1/np.sqrt(np.exp(sam[0][0,-2:]))
+    sam = mcmcmh(Mc, Nc, M0, Q, A0, tar, jump)
+    return 1 / np.sqrt(np.exp(sam[0][0, -2:]))
